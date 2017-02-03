@@ -1,6 +1,7 @@
 #!/bin/sh
 # a script to handle different links, when open from terminal with X
 printf %s ${1} | xsel -b
+color=$(cat /var/local/bgcolor)
 if echo "${1}" | grep -e \)$
 then
 	link=$(echo $link | cut -d')' -f 1)
