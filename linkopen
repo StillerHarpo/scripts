@@ -1,0 +1,15 @@
+#!/bin/sh
+# a script to handle different links, when open from terminal
+color=$(cat /var/local/bgcolor)
+domain=$(echo $1 | cut -d. -f2)
+link=${1}
+if echo "$link" | grep -e \)$
+then
+	link=$(echo $link | cut -d')' -f 1)
+elif [ ${DISPLAY:-'UNDEFINED_VARIABLE'} != 'UNDEFINED_VARIABLE' ] 
+then
+	~/scripts/linkopenwithx ${link}
+else
+	~/scripts/linkopenwithoutx ${link}
+fi
+

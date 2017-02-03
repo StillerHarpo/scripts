@@ -1,0 +1,40 @@
+#!/bin/bash
+# this script should close all applications before poweroff kills the xserver
+#close application in terminals
+for i in $(ps -u | grep pts | grep -v -e ps -e grep | awk '{print $11}' | grep -v awk)
+do
+	echo "closing ${i}"
+	killall ${i}
+	count=0
+	while [[ $(pgrep ${i}) -ne "" ]]
+	do
+		if [[ ${count} -eq 10 ]]
+		then
+			count=0
+			echo "waiting for ${i}"
+		fi
+        	sleep 0.1
+		sleep 0.1
+	done
+done
+# close the other applications
+IFS=$'\n' # use only linebreak to iterate over output in for
+for i in $(wmctrl -l | grep -v termite | cut -d' ' -f5-)
+do
+	[[ $(wmctrl -l | grep ${i} | head -c 10) -ne "" ]] && echo "closing ${i}"
+        wmctrl -c ${i}
+	count=0
+        while [[ $(wmctrl -l | grep ${i} | head -c 10) -ne "" ]]
+        do
+		count=$(let ${count}++)
+		if [[ ${count} -eq 10 ]]
+		then
+			count=0
+			echo "waiting for ${i}"
+		fi
+        	sleep 0.1
+        done
+done
+unset IFS # reset iterate symbols
+killall xmonad
+sleep 3 # make sure there is enough time to close the application

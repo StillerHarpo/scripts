@@ -1,0 +1,9 @@
+#!/bin/sh
+# i don't use that anymore (use instead soimort/translate-shell)
+dump=`w3m -dump http://www.dict.cc/englisch-deutsch/$1.html | grep "^ $1" -A 1000 | grep "nach oben" -B 1000 | head -n -2`
+if [ "$dump" == "" ]
+then
+  w3m -dump https://www.dict.cc/?s=$1 | grep px -A 100 | grep Weitere -B 100 | head -n -2 | more
+else
+  echo "$dump" | more
+fi

@@ -1,0 +1,47 @@
+#!/bin/bash
+# script to get all appontments in the next 24 hours
+
+apts=$(calcurse -d 2 | grep -v -e '^$' -e '^[0-9]' ) # get apts from the next 2 days
+n=$(echo "${apts}"| wc -l) # line length
+nh=0 #conter for hours/minutes 
+nn=0 #conter for names
+
+# save all appts in arrays
+for i in $(seq 1 ${n}); do 
+	if [ $((i%2)) -eq 0 ]; then
+		names[nn]=$(echo "${apts}" | sed -n ${i}p)
+		nn=$((nn+1))
+	else 
+		hours[nh]=$(echo "${apts}" | sed -n ${i}p | cut -d' ' -f3 | cut -d: -f1)
+		minutes[nh]=$(echo "${apts}" | sed -n ${i}p | cut -d' ' -f3 | cut -d: -f2)
+		nh=$((nh+1))
+	fi
+done 
+
+#print next apts for day 1
+n1=$(($(calcurse -d 1 | grep -v -e '^$' -e '^[0-9]' | wc -l)/2)) # length of day 1
+for i in $(seq 0 $((${n1}-1))); do
+	if [ ${hours[${i}]} -gt $(date +%-H) ]; then
+		if [[ ${minutes[${i}]} -ge $(date +%-M) ]]; then
+			printf "[%02d:%02d] ${names[${i}]}\n" $((${hours[${i}]}-$(date +%-H))) $((${minutes[${i}]}-$(date +%-M)))
+		else
+			printf "[%02d:%02d] ${names[${i}]}\n" $((${hours[${i}]}-$(date +%-H)-1)) $((60-$(date +%-M)+${minutes[${i}]}))
+		fi
+	elif [ ${hours[${i}]} -eq $(date +%-H) ]; then
+		if [[ ${minutes[${i}]} -gt $(date +%-M) ]]; then
+			printf "[00:%02d]  ${names[${i}]}\n" $((${minutes[${i}]}-$(date +%-M)))
+		fi
+	fi
+done
+
+#print next apts for day 2
+n=$((${n}/2))
+for i in $(seq ${n1} $((${n}-1))); do
+	if [ ${hours[i]} -le $(date +%-H) ]; then
+		if [ ${minutes[${i}]} -ge $(date +%-M) ]; then
+			printf "[%02d:%02d] ${names[${i}]}\n" $((24-$(date +%-H)+${hours[${i}]})) $((${minutes[${i}]}-$(date +%-M)))
+		else
+			printf "[%02d:%02d] ${names[${i}]}\n" $((24-$(date +%-H)+hours[i]-1)) $((60-$(date +%-M)+minutes[i]))
+		fi
+	fi
+done

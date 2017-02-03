@@ -1,0 +1,26 @@
+#!/bin/bash
+/usr/bin/synergys --daemon --config /etc/synergy.conf
+xrandr --auto
+xrandr --output HDMI-1 --off
+QEMU_PA_SAMPLES=128 QEMU_AUDIO_DRV=pa
+qemu-system-x86_64 \
+		-enable-kvm \
+		-m 12288 \
+		-cpu host \
+		-smp sockets=1,cores=4,threads=1 \
+		-device vfio-pci,host=06:00.0,x-vga=on \
+		-device vfio-pci,host=06:00.1 \
+		-vga none \
+		-monitor stdio\
+		-device virtio-scsi-pci,id=scsi \
+		-soundhw hda \
+		-drive file=~/kvm/en_windows_10_education_version_1511_x64_dvd_7223856.iso,id=isocd,format=raw,if=none -device scsi-cd,drive=isocd \
+		-drive file=~/kvm/virtio-win-0.1.126.iso,id=virtiocd,if=none,format=raw -device ide-cd,bus=ide.1,drive=virtiocd \
+		-drive file=/dev/sdb,id=ssd,format=raw,if=none -device scsi-hd,drive=ssd  \
+		-drive file=/dev/sdc,id=disk,format=raw,if=none -device scsi-hd,drive=disk \
+		-usb -usbdevice host:1a34:0806
+setxkbmap de
+xrandr --addmode HDMI-1 1920x1080
+xrandr --output DVI-I-1 --off
+killall synergys
+echo "1" > /var/local/hddoff

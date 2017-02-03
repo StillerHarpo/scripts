@@ -1,0 +1,67 @@
+#!/bin/sh
+# a script to handle different links, when open from terminal with X
+printf %s ${1} | xsel -b
+if echo "${1}" | grep -e \)$
+then
+	link=$(echo $link | cut -d')' -f 1)
+fi
+if echo "${1}" | grep -e \.mp3$ -e \.mp4$ -e \.m4v$ 
+then
+	termite -e "mpv --no-osc -no-audio-display ${1}"
+elif echo "${1}" | grep -e www.youtube -e www.dailymotion
+then
+	termite -e "mpv --no-osc "${1}""
+elif echo "${1}" | grep -e youtu.be
+then
+	LINK="$(curl -Is ${1} | sed -n 's#Location: ##p' )"
+	echo $LINK
+	termite -e "mpv --no-osc $LINK"
+elif echo "${1}" | grep -e \.jpg$ -e \.JPG$ -e \.jpeg$ -e \.png$  -e \.PNG$
+then
+	if echo "${1}" | grep -e wikipedia.org # use the best quality of the picture
+	then
+		feh -. --image-bg $color `w3m -dump -o display_link_number=1 ${1}| grep -e \.jpg$ -e \.JPG$ -e \.jpeg$ -e \.png$ | cut -c6- | grep -v /thumb/ | grep /commons/ | grep -e ^https` || feh -. --image-bg $color "${1}"
+	else
+		feh -. --image-bg $color "${1}"
+	fi
+elif echo "${1}" | grep -e \.svg
+then
+	if echo "${1}" | grep -e wikipedia.org
+	then
+		display `w3m -dump -o display_link_number=1 ${1} | grep -e \.svg$ | cut -c6- | grep -v /thumb/ | grep /commons/ | grep -e ^https`
+	else
+		display ${1}
+	fi
+elif echo "${1}"| grep -e \.gif -e \.gifv$
+then
+	mpv --loop --no-osc -no-audio-display ${1}
+elif echo "${1}"| grep -e \.pdf 
+then
+	DIR="/tmp/newpdfs"
+	if [ ! -e $DIR ]
+	then
+		mkdir $DIR
+		chmod 0755 $DIR
+	else
+		rm -f $DIR/*
+	fi
+	DOWN="${1} -P $DIR"
+	wget $DOWN
+	BILD="$(echo ${1##*/})"
+	zathura $DIR/$BILD 
+elif echo "${1}" | grep -e imgur.com -e flickr.com -e i.reddit 
+then
+	you-get -p "feh -. --image-bg $color" ${1}
+elif echo "${1}" | grep -e gfycat.com 
+then
+	termite -e "mpv --loop --no-osc $(you-get -u ${1} | grep \.gif$ | head -1)"
+elif echo "${1}" | grep -e www.reddit
+then
+	termite -e "rtv -l "${1}""
+elif [[ $color == "black" ]]
+then
+	firefox -P DarkFirefox --new-window "${1}"
+else
+	firefox -P BrightFirefox --new-window "${1}"
+fi
+

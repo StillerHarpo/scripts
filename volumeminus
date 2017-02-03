@@ -1,0 +1,4 @@
+#!/bin/sh
+osdx='/usr/bin/osd_cat -d 1 -O 2 -u '#181818' -A center -l 1 -p bottom -o 60 -c '#AB4642' -f '-*-terminus-*-*-*-*-*-280-*-*-*-*-*-*''
+amixer set Master 9%-
+amixer get Master | grep Left: | sed -e "s/\[\|\]/./g"  |  cut -d. -f2 | $osdx 

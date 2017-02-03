@@ -1,0 +1,8 @@
+#!/bin/sh
+year=`command ls ~/Dokumente/Traeume | tail -n 1`
+month=`command ls ~/Dokumente/Traeume/$year | tail -n 1`
+day=`command ls ~/Dokumente/Traeume/$year/$month | tail -n 1`
+mkdir -p ~/Dokumente/TraeumeSchoen/$year/$month/
+pandoc ~/Dokumente/Traeume/$year/$month/$day -o ~/Dokumente/TraeumeSchoen/$year/$month/$(echo $day | cut -d. -f -3).pdf
+pandoc ~/Dokumente/Traeume/$year/$month/$day -o ~/Dokumente/Traeume/$year/$month/$day
+vim ~/Dokumente/Traeume/$year/$month/$day 

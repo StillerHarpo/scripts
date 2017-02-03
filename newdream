@@ -1,0 +1,38 @@
+#!/bin/sh
+if [ $(date +"%m") == "01" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/1_Januar
+   vim ~/Dokumente/Traeume/$(date +"%Y")/1_Januar/Traeume_vom_$(date +"%d").01.$(date +"%Y").md
+elif [ $(date +"%m") == "02" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/2_Februar
+   vim ~/Dokumente/Traeume/$(date +"%Y")/2_Februar/Traeume_vom_$(date +"%d").02.$(date +"%Y").md
+elif [ $(date +"%m") == "03" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/3_Maerz
+   vim ~/Dokumente/Traeume/$(date +"%Y")/3_Maerz/Traeume_vom_$(date +"%d").03.$(date +"%Y").md
+elif [ $(date +"%m") == "04" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/4_April
+   vim ~/Dokumente/Traeume/$(date +"%Y")/4_April/Traeume_vom_$(date +"%d").04.$(date +"%Y").md
+elif [ $(date +"%m") == "05" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/5_Mai
+   vim ~/Dokumente/Traeume/$(date +"%Y")/5_Mai/Traeume_vom_$(date +"%d").05.$(date +"%Y").md
+elif [ $(date +"%m") == "06" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/6_Juni
+   vim ~/Dokumente/Traeume/$(date +"%Y")/6_Juni/Traeume_vom_$(date +"%d").06.$(date +"%Y").md
+elif [ $(date +"%m") == "07" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/7_Juli
+   vim ~/Dokumente/Traeume/$(date +"%Y")/7_Juli/Traeume_vom_$(date +"%d").07.$(date +"%Y").md
+elif [ $(date +"%m") == "08" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/8_August
+   vim ~/Dokumente/Traeume/$(date +"%Y")/8_August/Traeume_vom_$(date +"%d").08.$(date +"%Y").md
+elif [ $(date +"%m") == "09" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/9_September
+   vim ~/Dokumente/Traeume/$(date +"%Y")/9_September/Traeume_vom_$(date +"%d").09.$(date +"%Y").md
+elif [ $(date +"%m") == "10" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/10_Oktober
+   vim ~/Dokumente/Traeume/$(date +"%Y")/10_Oktober/Traeume_vom_$(date +"%d").10.$(date +"%Y").md
+elif [ $(date +"%m") == "11" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/11_November
+   vim ~/Dokumente/Traeume/$(date +"%Y")/11_November/Traeume_vom_$(date +"%d").11.$(date +"%Y").md
+elif [ $(date +"%m") == "12" ]; then
+   mkdir -p ~/Dokumente/Traeume/$(date +"%Y")/12_Dezember
+   vim ~/Dokumente/Traeume/$(date +"%Y")/12_Dezember/Traeume_vom_$(date +"%d").12.$(date +"%Y").md
+fi
