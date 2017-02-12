@@ -2,10 +2,11 @@
 # a script to handle different links, when open from terminal
 domain=$(echo $1 | cut -d. -f2)
 link=${1}
-if echo "$link" | grep -e \)$
+if echo "$link" | grep -e \)$ -e \)\.$
 then
 	link=$(echo $link | cut -d')' -f 1)
-elif [ ${DISPLAY:-'UNDEFINED_VARIABLE'} != 'UNDEFINED_VARIABLE' ] 
+fi
+if [ ${DISPLAY:-'UNDEFINED_VARIABLE'} != 'UNDEFINED_VARIABLE' ] 
 then
 	~/scripts/linkopenwithx ${link}
 else
