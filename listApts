@@ -1,0 +1,31 @@
+#!/bin/sh
+#keys for selection
+keys=("f" "j" "d" "k" "s" "l" "a")
+# get all open windowname
+apts=($(wmctrl -l | cut -d' ' -f5))
+# workspaces
+ws=($(wmctrl -l | cut -d' ' -f3))
+# get the pids
+pids=($(wmctrl -lp | cut -d' ' -f4))
+# show processes in terminal
+j=1
+for i in ${pids[@]}
+do
+	if [[ $(ps -p ${i} -o comm=) == "termite" ]]
+	then
+		child=$(pgrep -P ${i})
+		if [[ $(ps -p ${child} -o comm=) == "zsh" ]]
+		then
+			child=$(pgrep -P ${child})
+			apts[${j}]=$(ps -p ${child} -o comm=)
+		elif [[ $(ps -p ${child} -o comm=) != "" ]]
+		then
+			apts[${j}]=$(ps -p ${child} -o comm=)
+		fi
+	fi
+	j=$((j + 1))
+done
+for i in ${apts[@]}
+do
+	echo ${i}
+done
