@@ -1,15 +1,19 @@
 #!/bin/sh
 olddream
-phase(1)
-phase(2)
-phase(3)
-phase(4)
 file=$(~/scripts/newdream)
-function phase(n){
+phase 1
+phase 2
+phase 3
+phase 4
+function phase {
 	xrandr --output eDP-1 --off
+	hoursstart=$(date +%H)
+	minutestart=$(date +%M)
 	sleep 10
+	hoursend=$(date +%H)
+	minuteend=$(date +%M)
+	printf "# Sleep phase $1 from ${hoursstart}:${minutesstart} to ${minutestart}:${minuteend}\n\n" >> ${file}
 	xrandr --output eDP-1 --auto
-	mpv 
-	echo "## Sleep phase ${x} from ${hoursstart}:${minutesstart} to ${minutestart}:${minuteend}" >> ${file}
+	mpv ~/Dokumente/Traeume/weakingSong.mp3
+	vim + ${file}
 }
-
