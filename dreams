@@ -1,0 +1,15 @@
+#!/bin/sh
+olddream
+phase(1)
+phase(2)
+phase(3)
+phase(4)
+file=$(~/scripts/newdream)
+function phase(n){
+	xrandr --output eDP-1 --off
+	sleep 10
+	xrandr --output eDP-1 --auto
+	mpv 
+	echo "## Sleep phase ${x} from ${hoursstart}:${minutesstart} to ${minutestart}:${minuteend}" >> ${file}
+}
+
