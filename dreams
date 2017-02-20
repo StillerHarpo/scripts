@@ -1,5 +1,18 @@
 #!/bin/sh
+
+function rc {
+	echo "How many fingers do you have"
+	read number
+	while [[ ${number} != "10" ]]
+	do
+		echo "Try to fly"
+		echo "How many fingers do you have"
+		read number
+	done
+}
+rc
 olddream
+rc
 file=$(~/scripts/newdream)
 function phase {
 	xrandr --output eDP-1 --off
@@ -12,7 +25,9 @@ function phase {
 	xrandr --output eDP-1 --auto
 	mpv ~/Dokumente/weakingSong.mp3
 	pandoc ${file} -o ${file}
+	rc
 	vim + ${file}
+	rc
 }
 phase 1
 phase 2
