@@ -5,14 +5,25 @@ apts=$(calcurse -d 2 | grep -v -e '^$' -e '^[0-9]' ) # get apts from the next 2 
 n=$(echo "${apts}"| wc -l) # line length
 nh=0 #conter for hours/minutes 
 nn=0 #conter for names
-
+isBreak=false
 # save all appts in arrays
 for i in $(seq 1 ${n}); do 
+	if ${isBreak}
+	then
+		isBreak=false
+		continue
+	fi
 	if [ $((i%2)) -eq 0 ]; then
 		names[nn]=$(echo "${apts}" | sed -n ${i}p)
 		nn=$((nn+1))
 	else 
-		hours[nh]=$(echo "${apts}" | sed -n ${i}p | cut -d' ' -f3 | cut -d: -f1)
+		hcheck=$(echo "${apts}" | sed -n ${i}p | cut -d' ' -f3 | cut -d: -f1)
+		if [[ ${hcheck} == ".." ]]
+		then
+			isBreak=true
+			continue
+		fi
+		hours[nh]=${hcheck}
 		minutes[nh]=$(echo "${apts}" | sed -n ${i}p | cut -d' ' -f3 | cut -d: -f2)
 		nh=$((nh+1))
 	fi
@@ -35,9 +46,10 @@ for i in $(seq 0 $((${n1}-1))); do
 done
 
 #print next apts for day 2
-n=$((${n}/2))
+n=$((${nh}/2))
 for i in $(seq ${n1} $((${n}-1))); do
-	if [ ${hours[i]} -le $(date +%-H) ]; then
+	echo ${hours[${i}]}
+	if [ ${hours[${i}]} -le $(date +%-H) ]; then
 		if [ ${minutes[${i}]} -ge $(date +%-M) ]; then
 			printf "[%02d:%02d] ${names[${i}]}\n" $((24-$(date +%-H)+${hours[${i}]})) $((${minutes[${i}]}-$(date +%-M)))
 		else
