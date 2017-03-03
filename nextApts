@@ -30,7 +30,7 @@ for i in $(seq 1 ${n}); do
 done 
 
 #print next apts for day 1
-n1=$(($(calcurse -d 1 | grep -v -e '^$' -e '^[0-9]' | wc -l)/2)) # length of day 1
+n1=$(calcurse -d 1 | grep -e '- [0-9]' | wc -l) # length of day 1
 for i in $(seq 0 $((${n1}-1))); do
 	if [ ${hours[${i}]} -gt $(date +%-H) ]; then
 		if [[ ${minutes[${i}]} -ge $(date +%-M) ]]; then
@@ -46,8 +46,7 @@ for i in $(seq 0 $((${n1}-1))); do
 done
 
 #print next apts for day 2
-n=$((${nh}/2))
-for i in $(seq ${n1} $((${n}-1))); do
+for i in $(seq ${n1} $((${nh}-1))); do
 	echo ${hours[${i}]}
 	if [ ${hours[${i}]} -le $(date +%-H) ]; then
 		if [ ${minutes[${i}]} -ge $(date +%-M) ]; then
