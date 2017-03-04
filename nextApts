@@ -1,10 +1,10 @@
 #!/bin/bash
-# script to get all appontments in the next 24 hours
+# script to get all appointments in the next 24 hours
 
 apts=$(calcurse -d 2 | grep -v -e '^$' -e '^[0-9]' ) # get apts from the next 2 days
-n=$(echo "${apts}"| wc -l) # line length
-nh=0 #conter for hours/minutes 
-nn=0 #conter for names
+n=$(calcurse -d 2 | grep -v -e '^$' -e '^[0-9]' | wc -l) # line length 
+nh=0 #counter for hours/minutes 
+nn=0 #counter for names
 isBreak=false
 # save all appts in arrays
 for i in $(seq 1 ${n}); do 
