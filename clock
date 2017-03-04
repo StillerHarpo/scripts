@@ -1,7 +1,5 @@
 #!/bin/sh
-fgcolor=$(cat /var/local/fgcolor)
-bgcolor=$(cat /var/local/bgcolorClock)
-osdx='/usr/bin/osd_cat -d 3 -O 2 -u '$bgcolor' -A center -l 3 -p bottom -o 60 -c '$fgcolor' -f '-*-terminus-*-*-*-*-*-280-*-*-*-*-*-*''
+fgcolor=$(cat ~/.var/fgcolor)
+bgcolor=$(cat ~/.var/bgcolorClock)
+osdx='osd_cat -d 3 -O 2 -u '$bgcolor' -A center -l 3 -p bottom -o 60 -c '$fgcolor' -f '-*-terminus-*-*-*-*-*-280-*-*-*-*-*-*''
 printf  "$(date "+%H:%M:%S%n%A, %d. %B %Y")" | $osdx
-
-
