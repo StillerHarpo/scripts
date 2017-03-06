@@ -2,9 +2,9 @@
 brightness=`grep "background" ~/.config/termite/config`
 if [ "$brightness" == "background = #fdf6e3" ]
 then
-  echo black > ~/.var/bgcolor
-  echo "#ab4642" > ~/.var/fgcolor
-  echo "#181818" > ~/.var/bgcolorClock
+  echo black > ~/scripts/var/bgcolor
+  echo "#ab4642" > ~/scripts/var/fgcolor
+  echo "#181818" > ~/scripts/var/bgcolorClock
   ~/scripts/allxtermcontrol --bg 'rgb:1800/1800/1800'
   ~/scripts/allxtermcontrol --fg 'rgb:AB00/4600/4200'
   sed -i "s/background = .*/background = #181818/" ~/.config/termite/config
