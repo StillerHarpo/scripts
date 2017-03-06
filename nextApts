@@ -47,7 +47,6 @@ done
 
 #print next apts for day 2
 for i in $(seq ${n1} $((${nh}-1))); do
-	echo ${hours[${i}]}
 	if [ ${hours[${i}]} -le $(date +%-H) ]; then
 		if [ ${minutes[${i}]} -ge $(date +%-M) ]; then
 			printf "[%02d:%02d] ${names[${i}]}\n" $((24-$(date +%-H)+${hours[${i}]})) $((${minutes[${i}]}-$(date +%-M)))
