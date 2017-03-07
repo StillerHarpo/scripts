@@ -1,7 +1,7 @@
 #!/bin/sh
 # a script to handle different links, when open from terminal with X
 printf %s ${1} | xsel -b
-color=$(cat /var/local/bgcolor)
+color=$(cat ~/scripts/var/bgcolor)
 if echo "${1}" | grep -e \.mp3$ -e \.mp4$ -e \.m4v$ 
 then
 	termite -e "mpv --no-osc -no-audio-display ${1}"
