@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # script to get all appointments in the next 24 hours
 
 apts=$(calcurse -d 2 | grep -v -e '^$' -e '^[0-9]' ) # get apts from the next 2 days
