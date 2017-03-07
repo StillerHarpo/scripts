@@ -1,7 +1,7 @@
 #! /bin/bash
 while true
 do
-	if [[ $(cat /var/local/hddoff) == "1" ]]
+	if [[ $(cat ~/scripts/var/hddoff) == "1" ]]
 	then
 		hdparm -Y /dev/sda /dev/sdc /dev/sr0
 		echo "0" > /var/local/hddoff
