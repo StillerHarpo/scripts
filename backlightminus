@@ -2,6 +2,7 @@
 brightness=`grep "background" ~/.config/termite/config`
 if [ "$brightness" == "background = #fdf6e3" ]
 then
+  feh --bg-scale ~/scripts/var/black.png
   echo black > ~/scripts/var/bgcolor
   echo "#ab4642" > ~/scripts/var/fgcolor
   echo "#181818" > ~/scripts/var/bgcolorClock
