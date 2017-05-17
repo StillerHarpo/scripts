@@ -1,4 +1,4 @@
-#!/bin/sh
+#/bin/sh
 # script to get all appointments in the next 24 hours
 
 apts=$(calcurse -d 2 | grep -v -e '^$' -e '^[0-9]' ) # get apts from the next 2 days
@@ -24,34 +24,39 @@ for i in $(seq 1 ${n}); do
 			continue
 		fi
 		hours[nh]=${hcheck}
+		hours[nh]=${hours[${nh}]#0}
 		minutes[nh]=$(echo "${apts}" | sed -n ${i}p | cut -d' ' -f3 | cut -d: -f2)
+		minutes[nh]=${minutes[${nh}]#0}
 		nh=$((nh+1))
 	fi
 done 
-
+cHour=$(date +%-H)
+cHour=${cHour#0}
+cMin=$(date +%-M)
+cMin=${cMin#0}
 #print next apts for day 1
 n1=$(calcurse -d 1 | grep -e '- [0-9]' | wc -l) # length of day 1
 for i in $(seq 0 $((${n1}-1))); do
-	if [ ${hours[${i}]} -gt $(date +%-H) ]; then
-		if [[ ${minutes[${i}]} -ge $(date +%-M) ]]; then
-			printf "[%02d:%02d] ${names[${i}]}\n" $((${hours[${i}]}-$(date +%-H))) $((${minutes[${i}]}-$(date +%-M)))
+	if [ ${hours[${i}]} -gt ${cHour} ]; then
+		if [[ ${minutes[${i}]} -ge ${cMin} ]]; then
+			printf "[%02d:%02d] ${names[${i}]}\n" $((hours[i]}-cHour)) $((minutes[i]}-cMin))
 		else
-			printf "[%02d:%02d] ${names[${i}]}\n" $((${hours[${i}]}-$(date +%-H)-1)) $((60-$(date +%-M)+${minutes[${i}]}))
+			printf "[%02d:%02d] ${names[${i}]}\n" $((hours[i]}-cHour-1)) $((60-cMin+minutes[i]}))
 		fi
-	elif [ ${hours[${i}]} -eq $(date +%-H) ]; then
-		if [[ ${minutes[${i}]} -gt $(date +%-M) ]]; then
-			printf "[00:%02d]  ${names[${i}]}\n" $((${minutes[${i}]}-$(date +%-M)))
+	elif [ ${hours[${i}]} -eq ${cHour} ]; then
+		if [[ ${minutes[${i}]} -gt ${cMin} ]]; then
+			printf "[00:%02d]  ${names[${i}]}\n" $((minutes[i]}-cMin))
 		fi
 	fi
 done
 
 #print next apts for day 2
 for i in $(seq ${n1} $((${nh}-1))); do
-	if [ ${hours[${i}]} -le $(date +%-H) ]; then
-		if [ ${minutes[${i}]} -ge $(date +%-M) ]; then
-			printf "[%02d:%02d] ${names[${i}]}\n" $((24-$(date +%-H)+${hours[${i}]})) $((${minutes[${i}]}-$(date +%-M)))
+	if [ ${hours[${i}]} -le ${cHour} ]; then
+		if [ ${minutes[${i}]} -ge ${cMin} ]; then
+			printf "[%02d:%02d] ${names[${i}]}\n" $((24-cHour+hours[i]})) $((minutes[i]}-cMin))
 		else
-			printf "[%02d:%02d] ${names[${i}]}\n" $((24-$(date +%-H)+hours[i]-1)) $((60-$(date +%-M)+minutes[i]))
+			printf "[%02d:%02d] ${names[${i}]}\n" $((24-cHour+hours[i]-1)) $((60-cMin+minutes[i]))
 		fi
 	fi
 done
