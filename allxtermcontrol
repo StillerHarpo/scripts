@@ -2,6 +2,7 @@ for x in `ls /dev/pts | xargs`
     do
       if [[ !("$x" == "ptmx") ]] 
       then
-         xtermcontrol "$@"  > /dev/pts/$x
+         echo -ne "\033]10;$1\007"  > /dev/pts/$x
+         echo -ne "\033]11;$2\007"  > /dev/pts/$x
       fi
     done
