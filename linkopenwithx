@@ -5,7 +5,7 @@ color=$(cat ~/scripts/var/bgcolor)
 if echo "${1}" | grep -e \.mp3$ -e \.mp4$ -e \.m4v$ 
 then
 	termite -e "mpv --no-osc -no-audio-display ${1}"
-elif echo "${1}" | grep -e www.youtube -e www.dailymotion -e youtu.be
+elif echo "${1}" | grep -e www.youtube -e www.dailymotion -e youtu.be -e www.m.youtube
 then
 	termite -e "mpv --no-osc "${1}""
 elif echo "${1}" | grep -e \.jpg$ -e \.JPG$ -e \.jpeg$ -e \.png$  -e \.PNG$
