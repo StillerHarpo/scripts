@@ -39,13 +39,13 @@ n1=$(calcurse -d 1 | grep -e '- [0-9]' | wc -l) # length of day 1
 for i in $(seq 0 $((${n1}-1))); do
 	if [ ${hours[${i}]} -gt ${cHour} ]; then
 		if [[ ${minutes[${i}]} -ge ${cMin} ]]; then
-			printf "[%02d:%02d] ${names[${i}]}\n" $((hours[i]}-cHour)) $((minutes[i]}-cMin))
+			printf "[%02d:%02d] ${names[${i}]}\n" $((hours[i]-cHour)) $((minutes[i]-cMin))
 		else
-			printf "[%02d:%02d] ${names[${i}]}\n" $((hours[i]}-cHour-1)) $((60-cMin+minutes[i]}))
+			printf "[%02d:%02d] ${names[${i}]}\n" $((hours[i]-cHour-1)) $((60-cMin+minutes[i]))
 		fi
 	elif [ ${hours[${i}]} -eq ${cHour} ]; then
 		if [[ ${minutes[${i}]} -gt ${cMin} ]]; then
-			printf "[00:%02d]  ${names[${i}]}\n" $((minutes[i]}-cMin))
+			printf "[00:%02d]  ${names[${i}]}\n" $((minutes[i]-cMin))
 		fi
 	fi
 done

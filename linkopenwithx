@@ -5,14 +5,9 @@ color=$(cat ~/scripts/var/bgcolor)
 if echo "${1}" | grep -e \.mp3$ -e \.mp4$ -e \.m4v$ 
 then
 	termite -e "mpv --no-osc -no-audio-display ${1}"
-elif echo "${1}" | grep -e www.youtube -e www.dailymotion
+elif echo "${1}" | grep -e www.youtube -e www.dailymotion -e youtu.be
 then
 	termite -e "mpv --no-osc "${1}""
-elif echo "${1}" | grep -e youtu.be
-then
-	LINK="$(curl -Is ${1} | sed -n 's#Location: ##p' )"
-	echo $LINK
-	termite -e "mpv --no-osc $LINK"
 elif echo "${1}" | grep -e \.jpg$ -e \.JPG$ -e \.jpeg$ -e \.png$  -e \.PNG$
 then
 	if echo "${1}" | grep -e wikipedia.org # use the best quality of the picture
