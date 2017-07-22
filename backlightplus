@@ -6,7 +6,7 @@ then
   echo white > ~/scripts/var/bgcolor
   echo "#839496" > ~/scripts/var/fgcolor
   echo "#fdf6e3" > ~/scripts/var/bgcolorClock
-  ./allxtermcontrol  '#839496' '#fdf6e3'
+  ~/scripts/allxtermcontrol  '#839496' '#fdf6e3'
   sed -i "s/background = .*/background = #fdf6e3/" ~/.config/termite/config
   sed -i "s/foreground = .*/foreground = #839496/" ~/.config/termite/config
   sed -i "s/set recolor-lightcolor .*/set recolor-lightcolor \"#fdf6e3\"/" ~/.config/zathura/zathurarc
