@@ -1,0 +1,29 @@
+#!/bin/sh
+fg1=$1
+bg1=$2
+fg2=$3
+bg2=$4
+while [[ 0x$fg1 -ne 0x$fg2 ]] && [[ 0x$bg1 -ne 0x$bg2 ]]
+do
+    if [[ 0x$fg1 -lt 0x$fg2 ]]
+    then
+        fg1=$(echo "obase=16; ibase=16; $fg1+1"|bc)
+    fi
+    if [[ 0x$fg2 -lt 0x$fg1 ]]
+    then
+        fg1=$(echo "obase=16; ibase=16; $fg1-1"|bc)
+    fi
+    if [[ 0x$bg1 -lt 0x$bg2 ]]
+    then
+        bg1=$(echo "obase=16; ibase=16; $bg1+1"|bc)
+    fi
+    if [[ 0x$bg2 -lt 0x$bg1 ]]
+    then
+        bg1=$(echo "obase=16; ibase=16; $bg1-1"|bc)
+    fi
+    sleep 0.1
+    fg=#$(printf "%06x" 0x$fg1)
+    bg=#$(printf "%06x" 0x$bg1)
+    echo "$fg $bg"
+    ./allxtermcontrol $fg $bg
+done 
