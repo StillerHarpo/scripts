@@ -1,1 +1,1 @@
-osd_cat -A center -d 2 -l 3 -p bottom -o 60 -c '#10bb20' -f '-*-droid sans mono-*-*-*-*-*-280-100-100-*-*-*-*' 
+osd_cat -A center -d 2 -l 3 -p bottom -o 60 -c '#10bb20' -f '-*-terminus-*-*-*-*-*-280-*-*-*-*-*-*'
