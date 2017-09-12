@@ -5,7 +5,19 @@ color=$(cat ~/scripts/var/bgcolor)
 if echo "${1}" | grep -e \.mp3$ -e \.mp4$ -e \.m4v$ 
 then
 	termite -e "mpv --no-osc -no-audio-display ${1}"
-elif echo "${1}" | grep -e www.youtube -e www.dailymotion -e youtu.be -e www.m.youtube
+elif echo "${1}" | grep -e www.youtube 
+then
+        link=$(echo $1 | sed 's/tube/pak/')
+	termite -e "mpv --no-osc "${link}""
+elif echo "${1}" | grep -e youtu.be
+then
+        link=$(echo $1 | sed 's/tu\.be\//pak.com\/watch?v=/')
+	termite -e "mpv --no-osc "${link}""
+elif echo "${1}" | grep www.m.youtube
+then
+        link=$(echo $1 | sed 's/m.// | 'sed 's/tube/pak/')
+	termite -e "mpv --no-osc "${link}""
+elif echo "${1}" | grep -e www.dailymotion -e streamable.com -e liveleak.com -e vimeo.com
 then
 	termite -e "mpv --no-osc "${1}""
 elif echo "${1}" | grep -e \.jpg$ -e \.JPG$ -e \.jpeg$ -e \.png$  -e \.PNG$
