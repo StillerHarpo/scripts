@@ -2,21 +2,31 @@
 # a script to handle different links, when open from terminal with X
 printf %s ${1} | xsel -b
 color=$(cat ~/scripts/var/bgcolor)
+function checkYoutubeStartpoint {
+   if echo "${link}" | grep -e '\?t=[0-9]\+s$' 
+   then
+       time=$(echo "${link}" | sed 's/.*\?t=\([0-9]\+\)s$/\1/')
+       link=$(echo "${link}" | sed 's/\?t=[0-9]\+s$//')
+       termite -e "mpv --no-osc "${link}" --start=+${time}"
+   else
+       termite -e "mpv --no-osc "${link}""
+   fi
+   }
 if echo "${1}" | grep -e \.mp3$ -e \.mp4$ -e \.m4v$ 
 then
 	termite -e "mpv --no-osc -no-audio-display ${1}"
 elif echo "${1}" | grep -e m\.youtube\. 
 then
-        link=$(echo $1 | sed 's/m.//' | sed 's/tube/pak/')
-	termite -e "mpv --no-osc "${link}""
+        link=$(echo $1 | sed 's/m\.//' | sed 's/tube/pak/')
+        checkYoutubeStartpoint 
 elif echo "${1}" | grep -e youtube\. 
 then
         link=$(echo $1 | sed 's/tube/pak/')
-	termite -e "mpv --no-osc "${link}""
+        checkYoutubeStartpoint 
 elif echo "${1}" | grep -e youtu\.be
 then
         link=$(echo $1 | sed 's/tu\.be\//pak.com\/watch?v=/')
-	termite -e "mpv --no-osc "${link}""
+        checkYoutubeStartpoint 
 elif echo "${1}" | grep -e dailymotion\. -e streamable\.com -e liveleak\.com -e vimeo\.com
 then
 	termite -e "mpv --no-osc "${1}""
@@ -68,4 +78,3 @@ then
 else
 	firefox -P BrightFirefox --new-window "${1}"
 fi
-
