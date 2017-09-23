@@ -3,11 +3,17 @@
 printf %s ${1} | xsel -b
 color=$(cat ~/scripts/var/bgcolor)
 function checkYoutubeStartpoint {
-   if echo "${link}" | grep -e '\?t=[0-9]\+s$' 
+   if echo "${link}" | grep -e '[?#&]t=[0-9]\+s\?$' 
    then
-       time=$(echo "${link}" | sed 's/.*\?t=\([0-9]\+\)s$/\1/')
-       link=$(echo "${link}" | sed 's/\?t=[0-9]\+s$//')
-       termite -e "mpv --no-osc "${link}" --start=+${time}"
+       second=$(echo "${link}" | sed 's/.*[?#&]t=\([0-9]\+\)s\?$/\1/')
+       link=$(echo "${link}" | sed 's/[?#&]t=[0-9]\+m[0-9]\+s\?$//')
+       termite -e "mpv --no-osc "${link}" --start=+${second}"
+   elif echo "${link}" | grep -e '[?#&]t=[0-9]\+m[0-9]\+s\?$' 
+   then
+       second=$(echo "${link}" | sed 's/.*[?#&]t=[0-9]\+m\([0-9]\+\)s\?$/\1/')
+       minute=$(echo "${link}" | sed 's/.*[?#&]t=\([0-9]\+\)m[0-9]\+s\?$/\1/')
+       link=$(echo "${link}" | sed 's/[?#&]t=[0-9]\+m[0-9]\+s\?$//')
+       termite -e "mpv --no-osc "${link}" --start=+${minute}:${second}"
    else
        termite -e "mpv --no-osc "${link}""
    fi
