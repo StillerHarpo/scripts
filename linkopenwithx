@@ -6,7 +6,7 @@ function checkYoutubeStartpoint {
    if echo "${link}" | grep -e '[?#&]t=[0-9]\+s\?$' 
    then
        second=$(echo "${link}" | sed 's/.*[?#&]t=\([0-9]\+\)s\?$/\1/')
-       link=$(echo "${link}" | sed 's/[?#&]t=[0-9]\+m[0-9]\+s\?$//')
+       link=$(echo "${link}" | sed 's/[?#&]t=[0-9]\+s\?$//')
        termite -e "mpv --no-osc "${link}" --start=+${second}"
    elif echo "${link}" | grep -e '[?#&]t=[0-9]\+m[0-9]\+s\?$' 
    then
