@@ -1,1 +1,2 @@
-osd_cat -A center -d 2 -l 3 -p bottom -o 60 -c '#10bb20' -f '-*-terminus-*-*-*-*-*-280-*-*-*-*-*-*'
+#osd_cat -A center -d 2 -l 3 -p bottom -o 60 -c '#10bb20' -f '-*-terminus-*-*-*-*-*-280-*-*-*-*-*-*'
+osd_cat -A center -d 2 -l 3 -p bottom -o 60 -c '#10bb20' -f -adobe-helvetica-*-*-*-*-24-*-*-*-*-*-*-* 

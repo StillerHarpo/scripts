@@ -1,4 +1,4 @@
-for x in `ls /dev/pts | xargs`
+for x in `\ls /dev/pts | xargs`
     do
       if [[ !("$x" == "ptmx") ]] 
       then
