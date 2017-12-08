@@ -7,26 +7,36 @@ function checkYoutubeStartpoint {
    then
        second=$(echo "${link}" | sed 's/.*[?#&]t=\([0-9]\+\)s\?$/\1/')
        link=$(echo "${link}" | sed 's/[?#&]t=[0-9]\+s\?$//')
-       termite -e "mpv --no-osc "${link}" --start=+${second}"
+       mpv --no-osc "${link}" --start=+${second} || (
+         link=$(echo "${link}" | sed 's/pak/tube/')
+         mpv --no-osc "${link}" --start=+${second}
+       )
    elif echo "${link}" | grep -e '[?#&]t=[0-9]\+m[0-9]\+s\?$' 
    then
        second=$(echo "${link}" | sed 's/.*[?#&]t=[0-9]\+m\([0-9]\+\)s\?$/\1/')
        minute=$(echo "${link}" | sed 's/.*[?#&]t=\([0-9]\+\)m[0-9]\+s\?$/\1/')
        link=$(echo "${link}" | sed 's/[?#&]t=[0-9]\+m[0-9]\+s\?$//')
-       termite -e "mpv --no-osc "${link}" --start=+${minute}:${second}"
+       mpv --no-osc "${link}" --start=+${minute}:${second} || (
+         link=$(echo "${link}" | sed 's/pak/tube/')
+         mpv --no-osc "${link}" --start=+${minute}:${second} 
+       )
    else
-       termite -e "mpv --no-osc "${link}""
+       mpv --no-osc "${link}" || (
+         link=$(echo "${link}" | sed 's/pak/tube/') 
+         mpv --no-osc "${link}"
+       )
    fi
    }
 if echo "${1}" | grep -e \.mp3$ -e \.mp4$ -e \.m4v$ 
 then
-	termite -e "mpv --no-osc -no-audio-display ${1}"
+	mpv --no-osc -no-audio-display ${1}
 elif echo "${1}" | grep -e m\.youtube\. 
 then
         link=$(echo $1 | sed 's/m\.//' | sed 's/tube/pak/')
         checkYoutubeStartpoint 
 elif echo "${1}" | grep -e youtube\. 
 then
+
         link=$(echo $1 | sed 's/tube/pak/')
         checkYoutubeStartpoint 
 elif echo "${1}" | grep -e youtu\.be
@@ -35,7 +45,7 @@ then
         checkYoutubeStartpoint 
 elif echo "${1}" | grep -e dailymotion\. -e streamable\.com -e liveleak\.com -e vimeo\.com
 then
-	termite -e "mpv --no-osc "${1}""
+	mpv --no-osc "${1}"
 elif echo "${1}" | grep -e \.jpg$ -e \.JPG$ -e \.jpeg$ -e \.png$  -e \.PNG$
 then
 	if echo "${1}" | grep -e wikipedia.org # use the best quality of the picture
@@ -74,10 +84,10 @@ then
 	you-get -p "feh -. --image-bg $color" ${1}
 elif echo "${1}" | grep -e gfycat.com 
 then
-	termite -e "mpv --loop --no-osc $(you-get -u ${1} | grep \.gif$ | head -1)"
+        mpv --loop --no-osc $(you-get -u ${1} | grep \.gif$ | head -1)
 elif echo "${1}" | grep -e www.reddit
 then
-	termite -e "rtv -l "${1}""
+	rtv -l "${1}"
 elif [[ $color == "black" ]]
 then
 	firefox -P DarkFirefox --new-window "${1}"
