@@ -1,0 +1,4 @@
+#!/bin/sh
+WORKSPACE="$(wmctrl -d | grep "*" | cut -f1 -d' ')"
+sed -i -E "/^${WORKSPACE} .*$/d" ~/scripts/var/roots
+echo "${WORKSPACE} $(pwd)" >> ~/scripts/var/roots
