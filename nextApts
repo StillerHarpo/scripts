@@ -54,9 +54,10 @@ done
 for i in $(seq ${n1} $((${nh}-1))); do
 	if [ ${hours[${i}]} -le ${cHour} ]; then
 		if [ ${minutes[${i}]} -ge ${cMin} ]; then
-			printf "[%02d:%02d] ${names[${i}]}\n" $((24-cHour+hours[i]})) $((minutes[i]}-cMin))
+			printf "[%02d:%02d] ${names[${i}]}\n" $((24-cHour+hours[i])) $((minutes[i]-cMin))
 		else
 			printf "[%02d:%02d] ${names[${i}]}\n" $((24-cHour+hours[i]-1)) $((60-cMin+minutes[i]))
 		fi
 	fi
 done
+calcurse -t
