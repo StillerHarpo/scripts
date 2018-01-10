@@ -1,2 +1,2 @@
 #!/bin/sh
-date "+%H:%M:%S%n%A, %d. %B %Y" | $(~/scripts/screenText)
+date "+%H:%M:%S%n%A, %d. %B %Y" | ~/scripts/screenText

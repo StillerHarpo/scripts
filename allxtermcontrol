@@ -1,8 +1,9 @@
-for x in `\ls /dev/pts | xargs`
+#!/bin/sh
+for x in /dev/pts/*
     do
-      if [[ !("$x" == "ptmx") ]] 
+      if [ "$x" != "/dev/pts/ptmx" ]
       then
-         echo -ne "\033]10;$1\007"  > /dev/pts/$x
-         echo -ne "\033]11;$2\007"  > /dev/pts/$x
+         printf "\033]10;%s\007" "$1"  > "$x"
+         printf "\033]11;%s\007" "$2" > "$x"
       fi
     done

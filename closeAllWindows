@@ -1,14 +1,14 @@
 #!/bin/bash
 # this script should close all applications before poweroff kills the xserver
 #close application in terminals
-for i in $(ps -u | grep pts | grep -v -e ps -e grep | awk '{print $11}' | grep -v awk)
+for i in $(ps -u | grep pts | awk '{print $11}')
 do
 	echo "closing ${i}"
-	killall ${i}
+	killall "${i}"
 	count=0
-	while [[ $(pgrep ${i}) -ne "" ]]
+	while [ "$(pgrep "${i}")" != "" ]
 	do
-		if [[ ${count} -eq 10 ]]
+		if [ ${count} -eq 10 ]
 		then
 			count=0
 			echo "waiting for ${i}"
@@ -21,10 +21,10 @@ done
 IFS=$'\n' # use only linebreak to iterate over output in for
 for i in $(wmctrl -l | grep -v termite | cut -d' ' -f5-)
 do
-	[[ $(wmctrl -l | grep ${i} | head -c 10) -ne "" ]] && echo "closing ${i}"
-        wmctrl -c ${i}
+	[ "$(wmctrl -l | grep "${i}" | head -c 10)" != "" ] && echo "closing ${i}"
+        wmctrl -c "${i}"
 	count=0
-        while [[ $(wmctrl -l | grep ${i} | head -c 10) -ne "" ]]
+        while [[ $(wmctrl -l | grep "${i}" | head -c 10) -ne "" ]]
         do
 		count=$(let ${count}++)
 		if [[ ${count} -eq 10 ]]

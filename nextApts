@@ -2,30 +2,30 @@
 # script to get all appointments in the next 24 hours
 
 apts=$(calcurse -d 2 | grep -v -e '^$' -e '^[0-9]' ) # get apts from the next 2 days
-n=$(calcurse -d 2 | grep -v -e '^$' -e '^[0-9]' | wc -l) # line length 
+n=$(calcurse -d 2 | grep -c -v -e '^$' -e '^[0-9]' ) # line length 
 nh=0 #counter for hours/minutes 
 nn=0 #counter for names
 isBreak=false
 # save all appts in arrays
-for i in $(seq 1 ${n}); do 
+for i in $(seq 1 "${n}"); do 
 	if ${isBreak}
 	then
 		isBreak=false
 		continue
 	fi
 	if [ $((i%2)) -eq 0 ]; then
-		names[nn]=$(echo "${apts}" | sed -n ${i}p)
+		names[nn]=$(echo "${apts}" | sed -n "${i}"p)
 		nn=$((nn+1))
 	else 
-		hcheck=$(echo "${apts}" | sed -n ${i}p | cut -d' ' -f3 | cut -d: -f1)
-		if [[ ${hcheck} == ".." ]]
+		hcheck=$(echo "${apts}" | sed -n "${i}"p | cut -d' ' -f3 | cut -d: -f1)
+		if [ "${hcheck}" = ".." ]
 		then
 			isBreak=true
 			continue
 		fi
 		hours[nh]=${hcheck}
 		hours[nh]=${hours[${nh}]#0}
-		minutes[nh]=$(echo "${apts}" | sed -n ${i}p | cut -d' ' -f3 | cut -d: -f2)
+		minutes[nh]=$(echo "${apts}" | sed -n "${i}"p | cut -d' ' -f3 | cut -d: -f2)
 		minutes[nh]=${minutes[${nh}]#0}
 		nh=$((nh+1))
 	fi
@@ -35,25 +35,25 @@ cHour=${cHour#0}
 cMin=$(date +%-M)
 cMin=${cMin#0}
 #print next apts for day 1
-n1=$(calcurse -d 1 | grep -e '- [0-9]' | wc -l) # length of day 1
-for i in $(seq 0 $((${n1}-1))); do
-	if [ ${hours[${i}]} -gt ${cHour} ]; then
-		if [[ ${minutes[${i}]} -ge ${cMin} ]]; then
+n1=$(calcurse -d 1 | grep -c -e '- [0-9]' ) # length of day 1
+for i in $(seq 0 $((n1-1))); do
+	if [ "${hours[${i}]}" -gt "${cHour}" ]; then
+		if [ "${minutes[${i}]}" -ge "${cMin}" ]; then
 			printf "[%02d:%02d] ${names[${i}]}\n" $((hours[i]-cHour)) $((minutes[i]-cMin))
 		else
 			printf "[%02d:%02d] ${names[${i}]}\n" $((hours[i]-cHour-1)) $((60-cMin+minutes[i]))
 		fi
-	elif [ ${hours[${i}]} -eq ${cHour} ]; then
-		if [[ ${minutes[${i}]} -gt ${cMin} ]]; then
+	elif [ "${hours[${i}]}" -eq "${cHour}" ]; then
+		if [ "${minutes[${i}]}" -gt "${cMin}" ]; then
 			printf "[00:%02d]  ${names[${i}]}\n" $((minutes[i]-cMin))
 		fi
 	fi
 done
 
 #print next apts for day 2
-for i in $(seq ${n1} $((${nh}-1))); do
-	if [ ${hours[${i}]} -le ${cHour} ]; then
-		if [ ${minutes[${i}]} -ge ${cMin} ]; then
+for i in $(seq "${n1}" $((nh-1))); do
+	if [ "${hours[${i}]}" -le "${cHour}" ]; then
+		if [ "${minutes[${i}]}" -ge "${cMin}" ]; then
 			printf "[%02d:%02d] ${names[${i}]}\n" $((24-cHour+hours[i])) $((minutes[i]-cMin))
 		else
 			printf "[%02d:%02d] ${names[${i}]}\n" $((24-cHour+hours[i]-1)) $((60-cMin+minutes[i]))

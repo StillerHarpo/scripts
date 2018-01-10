@@ -1,6 +1,6 @@
 #!/bin/sh
-brightness=`grep "background" ~/.config/termite/config`
-if [ "$brightness" == "background = #181818" ]
+brightness=$(grep "background" ~/.config/termite/config)
+if [ "$brightness" = "background = #181818" ]
 then
   feh --bg-scale ~/scripts/var/white.png
   echo white > ~/scripts/var/bgcolor
