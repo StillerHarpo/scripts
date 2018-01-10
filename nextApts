@@ -24,16 +24,28 @@ for i in $(seq 1 "${n}"); do
 			continue
 		fi
 		hours[nh]=${hcheck}
-		hours[nh]=${hours[${nh}]#0}
+                while echo "${hours[${nh}]#0}" | grep -e '^0[0-9]+$' > /dev/null 2>&1
+                do
+		     hours[nh]=${hours[${nh}]#0}
+                done
 		minutes[nh]=$(echo "${apts}" | sed -n "${i}"p | cut -d' ' -f3 | cut -d: -f2)
-		minutes[nh]=${minutes[${nh}]#0}
+                while echo "${minutes[${nh}]#0}" | grep -e '^0[0-9]*$' > /dev/null 2>&1
+                do
+		     minutes[nh]=${minutes[${nh}]#0}
+                done
 		nh=$((nh+1))
 	fi
 done 
 cHour=$(date +%-H)
-cHour=${cHour#0}
+while echo "${cHour}" | grep -e '^0[0-9]+$' > /dev/null 2>&1
+do
+     cHour=${cHour#0}
+done
 cMin=$(date +%-M)
-cMin=${cMin#0}
+while echo "${cMin}" | grep -e '^0[0-9]+$' > /dev/null 2>&1
+do
+     cMin=${cMin#0}
+done
 #print next apts for day 1
 n1=$(calcurse -d 1 | grep -c -e '- [0-9]' ) # length of day 1
 for i in $(seq 0 $((n1-1))); do
