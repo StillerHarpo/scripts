@@ -73,8 +73,7 @@ then
 	else
 		rm -f $DIR/*
 	fi
-	DOWN="${1} -P $DIR"
-	wget "$DOWN"
+	wget "${1}" -P "${DIR}"
 	BILD="${1##*/}"
 	zathura "$DIR"/"$BILD"
 elif echo "${1}" | grep -q -e imgur\.com -e flickr\.com -e i\.reddit 
