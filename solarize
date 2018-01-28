@@ -1,0 +1,14 @@
+#!/bin/sh
+brightness=$(grep "background" ~/.config/termite/config | cut -d' ' -f3)
+if [ "$brightness" != "#002b36" ]
+then
+  feh --bg-scale ~/scripts/var/black.png
+  echo black > ~/scripts/var/bgcolor
+  echo "#839496" > ~/scripts/var/fgcolor
+  echo "#002b36" > ~/scripts/var/bgcolorClock
+  ~/scripts/allxtermcontrol '#839496' '#002b36' 
+  sed -i "s/background = .*/background = #002b36/" ~/.config/termite/config
+  sed -i "s/foreground = .*/foreground = #839496/" ~/.config/termite/config
+  sed -i "s/set recolor-lightcolor .*/set recolor-lightcolor \"#002b36\"/" ~/.config/zathura/zathurarc
+  sed -i "s/set recolor-darkcolor .*/set recolor-darkcolor \"#839496\"/" ~/.config/zathura/zathurarc
+fi
