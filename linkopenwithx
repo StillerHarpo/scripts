@@ -25,7 +25,7 @@ checkYoutubeStartpoint() {
        )
    fi
    }
-if echo "${1}" | grep -q -e \.mp3$ -e \.mp4$ -e \.m4v$ 
+if echo "${1}" | grep -q -e \.mp3$ -e \.mp4$ -e \.m4v$ -e v\.redd\.it
 then
 	mpv --really-quiet --no-osc -no-audio-display "${1}"
 elif echo "${1}" | grep -q -e m\.youtube\. 
