@@ -1,2 +1,8 @@
 #!/bin/sh
-date "+%H:%M:%S%n%A, %d. %B %Y" | ~/scripts/screenText
+CLOCK=$(date "+%H:%M:%S%n%A, %d. %B %Y")
+if [ -f /sys/class/power_supply/BAT1/capacity ]; then
+    BATTERY="Battery: $(cat /sys/class/power_supply/BAT1/capacity)%"
+else
+    BATTERY=""
+fi
+printf '%s\n%s' "$CLOCK" "$BATTERY" | ~/scripts/screenText
