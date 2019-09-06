@@ -1,7 +1,7 @@
 #!/bin/sh
 CLOCK=$(date "+%H:%M:%S%n%A, %d. %B %Y")
-if [ -f /sys/class/power_supply/BAT1/capacity ]; then
-    BATTERY="Battery: $(cat /sys/class/power_supply/BAT1/capacity)%"
+if [ -f /sys/class/power_supply/BAT0/capacity ]; then
+    BATTERY="Battery: $(cat /sys/class/power_supply/BAT0/capacity)%"
 else
     BATTERY=""
 fi
