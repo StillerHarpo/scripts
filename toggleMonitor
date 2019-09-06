@@ -1,0 +1,17 @@
+#!/bin/sh
+if xrandr -q | grep 'HDMI-2' | grep disconnected
+then
+    xrandr --output HDMI-2 --off
+    xrandr --output eDP-1 --mode 1920x1080
+elif xrandr -q | grep 'eDP-1' -A1 | tail -n1 | grep -v '\*' # screen off
+then
+    xrandr --output eDP-1 --mode 1920x1080
+    xrandr --output HDMI-2 --mode 1920x1080 --right-of eDP-1 # put eDP-1 right
+elif xrandr -q | grep 'eDP-1' -A1 |  grep '\*' -B1 | grep '+0+0' # eDP-1 left
+then
+    xrandr --output eDP-1 --mode 1920x1080
+    xrandr --output HDMI-2 --mode 1920x1080 --left-of eDP-1 # put eDP-1 right
+else
+    xrandr --output eDP-1 --off
+    xrandr --output HDMI-2 --mode 1920x1080
+fi
